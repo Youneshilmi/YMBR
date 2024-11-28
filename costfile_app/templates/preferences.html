@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Préférences{% endblock %}
+{% block content %}
+<h1>Gestion des Préférences</h1>
+<form method="post">
+    {% csrf_token %}
+    {% for key, value in config_data.items %}
+        <div class="mb-3">
+            <label for="{{ key }}" class="form-label">{{ key }}</label>
+            <input type="text" class="form-control" id="{{ key }}" name="{{ key }}" value="{{ value }}">
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+</form>
+{% endblock %}
