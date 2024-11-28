@@ -5,9 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import ReferenceFile, Channel, Product, Contract
 from .forms import ReferenceFileForm, NewDealForm, AudienceForecastForm
-from .utils import save_config, load_config, load_conffile, forecast_and_save
-from django.http import FileResponse
-import pandas as pd
+from .utils import save_config, load_config, calculate_forecast
 
 CONFIG_FILE = os.path.join(os.path.expanduser('~'), '.config', 'forecast_config.json')
 
@@ -88,42 +86,21 @@ def upload_file(request):
 def configure_forecast(request):
     channels = Channel.objects.all()
     products = Product.objects.all()
-    
     if request.method == 'POST':
         form = AudienceForecastForm(request.POST)
         if form.is_valid():
-            reference_month = form.cleaned_data['reference_month']
-            start_date = form.cleaned_data['start_date']
-            end_date = form.cleaned_data['end_date']
             selected_channels = request.POST.getlist('channels')
             selected_products = request.POST.getlist('products')
-
-            # Call parse_forecast to filter data
-            try:
-                config = load_conffile()
-                df = config.get('audience') if config else None
-                references_month = int(reference_month)
-                references_year = 2024  # Example reference year
-                target_start_year = int(start_date)
-                target_end_year = int(end_date)
-                specifics_enabled = False
-                prod_nums = selected_products
-                bus_chanl_nums = selected_channels
-                
-                # Call forecast_and_save to generate forecast and save results
-                output_file = forecast_and_save(
-                    df, references_month, references_year, target_start_year, target_end_year,
-                    specifics_enabled, prod_nums, bus_chanl_nums
-                )
-
-                messages.success(request, f"Prévisions générées avec succès: {output_file}")
-                return redirect('configure_forecast')
-
-            except ValueError as e:
-                messages.error(request, f"Erreur : {str(e)}")
+            forecast_file = calculate_forecast(
+                form.cleaned_data['start_date'],
+                form.cleaned_data['end_date'],
+                selected_channels,
+                selected_products
+            )
+            messages.success(request, f"Prévisions générées : {forecast_file}")
+            return redirect('configure_forecast')
     else:
         form = AudienceForecastForm()
-
     return render(request, 'configure_forecast.html', {
         'form': form,
         'channels': channels,

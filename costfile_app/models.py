@@ -15,8 +15,8 @@ class ReferenceFile(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
 class AudienceForecastConfig(models.Model):
-    start_date = models.PositiveIntegerField()  # Store year as a number
-    end_date = models.PositiveIntegerField()    # Store year as a number
+    start_date = models.DateField()
+    end_date = models.DateField()
     channels = models.CharField(max_length=255)
     products = models.CharField(max_length=255)
 
