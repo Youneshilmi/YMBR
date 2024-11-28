@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Accueil{% endblock %}
+{% block content %}
+<div class="text-center">
+    <h1>Gestion des Fichiers de Coûts et Audience</h1>
+    <p class="lead">Utilisez les options ci-dessous pour gérer vos fichiers et vos prévisions.</p>
+    <div class="row">
+        <div class="col-md-4"><a href="{% url 'file_upload' %}" class="btn btn-primary w-100">Charger des fichiers</a></div>
+        <div class="col-md-4"><a href="{% url 'configure_forecast' %}" class="btn btn-success w-100">Prévisions d'audience</a></div>
+        <div class="col-md-4"><a href="{% url 'contract_list' %}" class="btn btn-info">Liste des contrats</a>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-4 offset-md-4"><a href="{% url 'new_deal' %}" class="btn btn-warning w-100">Créer un nouveau contrat</a></div>
+    </div>
+</div>
+{% endblock %}

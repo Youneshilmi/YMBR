@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Configurer les Prévisions d'Audience</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="channels">Sélectionnez des chaînes</label>
+    <select name="channels" id="channels" multiple>
+        {% for channel in channels %}
+            <option value="{{ channel.name }}">{{ channel.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="products">Sélectionnez des produits</label>
+    <select name="products" id="products" multiple>
+        {% for product in products %}
+            <option value="{{ product.name }}">{{ product.name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn btn-success">Lancer la prévision</button>
+</form>
+{% endblock %}

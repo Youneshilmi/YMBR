@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Charger des fichiers{% endblock %}
+
+{% block content %}
+<h1>Charger un fichier de référence</h1>
+
+<form method="post" enctype="multipart/form-data" class="mt-4">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="file_type" class="form-label">Type de fichier</label>
+        {{ form.file_type }}
+    </div>
+    <div class="mb-3">
+        <label for="file" class="form-label">Sélectionner un fichier</label>
+        {{ form.file }}
+    </div>
+    <button type="submit" class="btn btn-primary">Charger</button>
+</form>
+
+{% if messages %}
+    <div class="mt-3">
+        {% for message in messages %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<h2 class="mt-5">Fichiers chargés</h2>
+<ul class="list-group">
+    {% for file in files %}
+        <li class="list-group-item">
+            {{ file.get_file_type_display }} - {{ file.uploaded_at }}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

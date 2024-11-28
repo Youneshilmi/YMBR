@@ -1,0 +1,18 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom du réseau</th>
+            <th>Groupe de contrat</th>
+            <th>Modèle commercial</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contract in contracts %}
+            <tr>
+                <td>{{ contract.network_name }}</td>
+                <td>{{ contract.cnt_name_grp }}</td>
+                <td>{{ contract.business_model }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

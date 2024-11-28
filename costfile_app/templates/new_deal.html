@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block body_class %}newdeal-page{% endblock %}
+
+{% block title %}Nouveau Contrat{% endblock %}
+
+{% block content %}
+<h1>Créer un Nouveau Contrat</h1>
+
+<form method="post" class="mt-4">
+    {% csrf_token %}
+    <!-- Ajoutez ici les champs pour créer un contrat -->
+    <div class="mb-3">
+        <label for="contract_name" class="form-label">Nom du Contrat</label>
+        <input type="text" class="form-control" id="contract_name" name="contract_name">
+    </div>
+    <button type="submit" class="btn btn-warning">Créer le contrat</button>
+</form>
+{% endblock %}
