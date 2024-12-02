@@ -1,17 +1,85 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}Accueil{% endblock %}
+{% block body_class %}home-page{% endblock %}
+
 {% block content %}
-<div class="text-center">
-    <h1>Gestion des Fichiers de Coûts et Audience</h1>
-    <p class="lead">Utilisez les options ci-dessous pour gérer vos fichiers et vos prévisions.</p>
-    <div class="row">
-        <div class="col-md-4"><a href="{% url 'file_upload' %}" class="btn btn-primary w-100">Charger des fichiers</a></div>
-        <div class="col-md-4"><a href="{% url 'configure_forecast' %}" class="btn btn-success w-100">Prévisions d'audience</a></div>
-        <div class="col-md-4"><a href="{% url 'contract_list' %}" class="btn btn-info">Liste des contrats</a>
+<section id="banner"><a name="home"></a>
+    <div class="wrapper">
+        <h2>YBMR</h2>
+        <p class="subtitle">Bilal, Matthias, Remond, Younes</p>
+        <div class="buttons">
+            <a href="{% url 'configure_forecast' %}" class="button-1">Audience</a>
+            <a href="{% url 'contract_list' %}" class="button-2">Contrat</a>
         </div>
     </div>
-    <div class="row mt-4">
-        <div class="col-md-4 offset-md-4"><a href="{% url 'new_deal' %}" class="btn btn-warning w-100">Créer un nouveau contrat</a></div>
+</section>
+<section class="video-section">	
+    <div class="wrapper">
+        <h3>Comment fonctionne notre gestionnaire de fichier de coût et d'audiance</h3>
+        <p class="subtitle">Regardez notre video explicative</p>
+        <video width="790" src="{% static 'img/video.mp4' %}" poster="img/video-poster.jpg" onclick="this.play();" controls preload>
+            <p>Video playback unsupported</p>
+        </video>
     </div>
-</div>
+</section>
+
+<section class="services-section"><a name="services"></a>
+    <div class="wrapper">
+        <h3>Services</h3>
+        <p class="subtitle">Nos différents services</p>
+        <ul class="services-list">
+            <li>
+                <div class="image-container">
+                    <img src="{% static 'img/icon-camera.png' %}">
+                </div>
+                <h5>Chargement de fichier</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida blandit lacus a laoreet. </p>
+                <a href="#">Learn More</a>
+            </li>
+            <li>
+                <div class="image-container">
+                    <img src="{% static 'img/icon-film.png' %}" alt="services icon" >
+                </div>
+                <h5>Prévision d'audience</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida blandit lacus a laoreet. </p>
+                <a href="#">Learn More</a>
+            </li>
+            <li>
+                <div class="image-container">
+                    <img src="{% static 'img/icon-pencil.png' %}" alt="services icon" >
+                </div>
+                <h5>Liste des contrats</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida blandit lacus a laoreet. </p>
+                <a href="#">Learn More</a>
+            </li>
+            <li>
+                <div class="image-container">
+                    <img src="{% static 'img/icon-film.png' %}" alt="services icon" >
+                </div>
+                <h5>Ajout de nouveau contrat</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida blandit lacus a laoreet. </p>
+                <a href="#">Learn More</a>
+            </li>
+            <div class="clear"></div>	
+        </ul>
+    </div>
+</section>
+<footer>
+    <div class="wrapper">
+        <a class="logo" href="#">YBMR</a>
+        <div class="footer-left">
+            <p class="copyright">Copyright 2024 &copy; YBMR</p>
+            <p class="footer-links"><a href="#">Contact Us</a> I <a href="#">Terms &amp; Conditions</a> I<a href="#">Privacy</a></p>
+        </div>
+        <div class="footer-right">
+            <a href="#" class="social facebook">Facebook</a>
+            <a href="#" class="social twitter">Facebook</a>
+            <a href="#" class="social google">Facebook</a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</footer>
 {% endblock %}
+
