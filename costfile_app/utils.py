@@ -2,6 +2,9 @@ import os
 import json
 import pandas as pd
 
+
+from .models import Contract
+from datetime import datetime
 from openpyxl.reader.excel import load_workbook
 from openpyxl.styles import PatternFill, Font, Side, Border
 from openpyxl.utils import get_column_letter
@@ -21,11 +24,8 @@ def save_config(filepath, data):
     with open(filepath, 'w') as f:
         json.dump(data, f, indent=4)
 
-import pandas as pd
-import os
-from datetime import datetime
 
-# Load configuration from config.json
+
 def load_conffile():
     config_path = 'config.json'
     try:
@@ -244,4 +244,36 @@ def forecast_and_save(df1, references_month, references_year, target_start_year,
         output_file = save_dataframe_with_formatting(forecast_df, reference_data, df1)
         
     return output_file
+
     
+def import_contracts_from_excel(df):
+    for index, row in df.iterrows():
+        if 'CNT_CONTRACT_KEY' in row and 'Business model' in row:
+            Contract.objects.create(
+                key=row['CNT_CONTRACT_KEY'],
+                provider=row['provider'],
+                business_model=row['Business model'],
+                varf=row['variable/fix'],
+                checktype=row['Check'],
+                year=row['year'],
+                allocation=row['allocation']
+                
+            )
+        else:
+            print(f"Skipping row {index} due to missing columns.")
+
+def load_and_import_contracts():
+    config = load_conffile()
+    xl = config.get('contract')
+
+    if xl:
+        try:
+            df = pd.read_excel(xl, usecols="A:AI")
+            import_contracts_from_excel(df)
+            print(f"Contracts imported successfully from {xl}")
+        except FileNotFoundError:
+            print(f"Excel file not found at: {xl}")
+        except Exception as e:
+            print(f"Error reading or processing the Excel file: {e}")
+    else:
+        print("Excel file path not found in the configuration.")

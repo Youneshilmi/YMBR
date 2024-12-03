@@ -9,7 +9,7 @@ class ReferenceFileForm(forms.ModelForm):
         fields = ['file_type', 'file']
 
 def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(__init__).__init__(*args, **kwargs)
         self.fields['file_type'].widget.attrs.update({'class': 'form-select'})
         self.fields['file'].widget.attrs.update({'class': 'form-control'})
 
@@ -51,4 +51,4 @@ class AudienceForecastForm(forms.ModelForm):
 class NewDealForm(forms.ModelForm):
     class Meta:
         model = Contract
-        fields = ['network_name', 'cnt_name_grp', 'business_model']
+        fields = ['key', 'provider', 'business_model', 'varf', 'checktype', 'year', 'allocation']
