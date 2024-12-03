@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import ReferenceFile, Channel, Product, Contract
 from .forms import ReferenceFileForm, NewDealForm, AudienceForecastForm
-from .utils import save_config, load_config, load_conffile, forecast_and_save
+from .utils import save_config, load_config, load_conffile, forecast_and_save, load_and_import_contracts
 from django.http import FileResponse
 import pandas as pd
 
@@ -51,6 +51,15 @@ def view_forecast(request):
 
 
 def contract_list(request):
+    if not Contract.objects.exists():
+        try:
+            load_and_import_contracts()
+        except Exception as e:
+            return render(request, 'contract_list.html', {
+                'contracts': [],
+                'error': f"Failed to load contracts: {str(e)}"
+            })
+
     contracts = Contract.objects.all()
     return render(request, 'contract_list.html', {'contracts': contracts})
 
@@ -82,7 +91,7 @@ def upload_file(request):
             return redirect('file_upload')
     else:
         form = ReferenceFileForm()
-    files = ReferenceFile.objects.all()
+    files = ReferenceFile.objects.all().order_by('-uploaded_at')
     return render(request, 'upload_file.html', {'form': form, 'files': files})
 
 def configure_forecast(request):
