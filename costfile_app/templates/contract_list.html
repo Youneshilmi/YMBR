@@ -1,18 +1,55 @@
-<table class="table">
+<head>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+    <!-- jQuery (required for DataTables) -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/colresize/1.0.0/js/dataTables.colResize.min.js"></script>
+</head>
+
+{% extends 'base.html' %}
+{% block content %}
+<table class="table" id="contractTable">
     <thead>
         <tr>
-            <th>Nom du réseau</th>
-            <th>Groupe de contrat</th>
-            <th>Modèle commercial</th>
+            <th>Clé du Contrat</th>
+            <th>Provider</th>
+            <th>Business Model</th>
+            <th>Variable/Fixed</th>
+            <th>Type de Vérification</th>
+            <th>Année</th>
+            <th>Allocation</th>
         </tr>
     </thead>
     <tbody>
         {% for contract in contracts %}
             <tr>
-                <td>{{ contract.network_name }}</td>
-                <td>{{ contract.cnt_name_grp }}</td>
+                <td>{{ contract.key }}</td>
+                <td>{{ contract.provider }}</td>
                 <td>{{ contract.business_model }}</td>
+                <td>{{ contract.varf }}</td>
+                <td>{{ contract.checktype }}</td>
+                <td>{{ contract.year }}</td>
+                <td>{{ contract.allocation }}</td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<script>
+    $(document).ready(function() {
+        $('#contractTable').DataTable({
+            "paging": true,  // Enable pagination
+            "searching": true,  // Enable searching
+            "ordering": true,  // Enable sorting
+            "info": true,  // Show table info (total records, etc.)
+            "lengthMenu": [10, 25, 50, 100],  // Rows per page options
+            "colResize": true,  // Enable column resizing
+            "autoWidth": true  // Adjust column width automatically
+        });
+    });
+</script>
+{% endblock %}
