@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6=zg1jt6mwbkpd&r!l1-kt=pp%!6ts*cdufi^bq!8)yi8&u9o!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['vps37.heliohost.us']
+ALLOWED_HOSTS = ['vps37.heliohost.us', 'localhost', '127.0.0.1']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True
