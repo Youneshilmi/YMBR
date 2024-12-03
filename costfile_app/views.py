@@ -6,7 +6,7 @@ from django.contrib import messages
 from .models import ReferenceFile, Channel, Product, Contract
 from .forms import ReferenceFileForm, NewDealForm, AudienceForecastForm
 from .utils import save_config, load_config, load_conffile, forecast_and_save, load_and_import_contracts
-from django.http import FileResponse
+from django.http import HttpResponse
 import pandas as pd
 
 CONFIG_FILE = os.path.join(os.path.expanduser('~'), '.config', 'forecast_config.json')
@@ -125,8 +125,14 @@ def configure_forecast(request):
                     specifics_enabled, prod_nums, bus_chanl_nums
                 )
 
-                messages.success(request, f"Prévisions générées avec succès: {output_file}")
-                return redirect('configure_forecast')
+                if output_file and os.path.exists(output_file):
+                    with open(output_file, 'rb') as f:
+                        response = HttpResponse(f.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+                        response['Content-Disposition'] = f'attachment; filename={os.path.basename(output_file)}'
+                        return response
+                else:
+                    messages.error(request, "Erreur lors de la génération du fichier.")
+                    return redirect('configure_forecast')
 
             except ValueError as e:
                 messages.error(request, f"Erreur : {str(e)}")
